@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Metalian Suit
 
 Um jogo de plataforma 2D estilo NES desenvolvido em Godot 4 com C#.
@@ -103,3 +104,6 @@ Este projeto é desenvolvido para fins educacionais e de demonstração.
 ## 🙏 Agradecimentos
 
 Inspirado nos clássicos de NES como Mega Man, Metroid e Castlevania.
+=======
+# metalian-suit
+>>>>>>> cca2ec35143d490f71f3d5edcb20f59ba53b05cc

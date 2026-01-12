@@ -17,7 +17,7 @@ public partial class StageManager : Node
 	private readonly Dictionary<int, string> stagePaths = new()
 	{
 		[0] = "res://nes_core/stages/stage_1/Stage1.tscn",
-		[1] = "res://nes_core/stages/stage_2/Stage2.tscn",
+		// [1] = "res://nes_core/stages/stage_2/Stage2.tscn", // Stage2 ainda não implementada
 		// Adicione novas stages aqui seguindo o padrão
 	};
 

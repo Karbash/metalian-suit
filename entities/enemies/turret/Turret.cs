@@ -1,37 +1,35 @@
 using Godot;
 
 /// <summary>
-/// Torrão estático que atira em intervalo fixo.
-/// Startup → Fire → Cooldown.
+/// Turret NES-style: Atira projéteis em intervalo fixo.
+/// Comportamento simples: espera → atira → recarrega.
 /// </summary>
 public partial class Turret : Enemy
 {
 	[Export] public PackedScene ProjectileScene;
-	
-	protected override int GetAIMove()
+
+	private float fireTimer;
+	private float fireInterval = 3.0f; // Atira a cada 3 segundos
+
+	protected override void UpdateAI(double delta)
 	{
-		return 0; // Não se move
+		fireTimer -= (float)delta;
+
+		if(fireTimer <= 0)
+		{
+			FireProjectile();
+			fireTimer = fireInterval;
+		}
 	}
-	
-	protected override void SetupStateMachine()
-	{
-		stateMachine.AddState("dormant", new TurretDormantState(this));
-		stateMachine.AddState("startup", new TurretStartupState(this));
-		stateMachine.AddState("fire", new TurretFireState(this));
-		stateMachine.AddState("cooldown", new TurretCooldownState(this));
-		stateMachine.AddState("dead", new WalkerDeadState(this));
-		
-		stateMachine.ChangeState("dormant");
-	}
-	
-	public void FireProjectile()
+
+	private void FireProjectile()
 	{
 		if(ProjectileScene == null) return;
-		
+
 		var projectile = ProjectileScene.Instantiate<Node2D>();
 		projectile.GlobalPosition = GlobalPosition + new Vector2(FacingRight ? 10 : -10, 0);
 		GetTree().Root.AddChild(projectile);
-		
+
 		// Configurar direção do projétil
 		if(projectile is Projectile proj)
 		{

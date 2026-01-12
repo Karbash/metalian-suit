@@ -39,8 +39,8 @@ public partial class Projectile : Area2D
 			combat.TakeDamage(new CombatController.DamageInfo
 			{
 				Damage = Damage,
-				Type = DamageType.Physical,
-				SourcePosition = GlobalPosition
+				SourcePosition = GlobalPosition,
+				KnockbackForce = 60f
 			});
 		}
 		

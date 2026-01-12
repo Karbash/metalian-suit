@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://blhwivj4m1ipx" path="res://entities/enemies/walker/Goomba.cs" id="1"]
 [ext_resource type="Script" uid="uid://catngs5ifjtwy" path="res://nes_core/components/SpriteController.cs" id="2"]
 [ext_resource type="Script" uid="uid://7yeci7qmhehn" path="res://nes_core/components/CombatController.cs" id="3"]
-[ext_resource type="Script" path="res://nes_core/components/KnockbackController.cs" id="6"]
 [ext_resource type="Texture2D" uid="uid://3uaeh5u7eggc" path="res://assets/sprites/enemies/walker/WALKER - Enemies.png" id="4_s4scb"]
 [ext_resource type="Script" uid="uid://b8ojf3r060b7o" path="res://nes_core/data/EntityData.cs" id="5"]
 
@@ -103,9 +102,6 @@ frame_progress = 0.8169687
 script = ExtResource("3")
 
 [node name="Hurtbox" type="Area2D" parent="CombatController" unique_id=1996115917]
-
-[node name="KnockbackController" type="Node" parent="." unique_id=153173925]
-script = ExtResource("6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CombatController/Hurtbox" unique_id=2139178477]
 shape = SubResource("3")

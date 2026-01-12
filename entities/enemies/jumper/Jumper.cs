@@ -1,26 +1,43 @@
 using Godot;
 
 /// <summary>
-/// Inimigo estilo Metroid que pula periodicamente.
-/// Dano apenas por contato.
+/// Jumper NES-style: Fica parado, prepara pulo, pula alto.
+/// Comportamento simples e previsível.
 /// </summary>
-
 public partial class Jumper : Enemy
 {
-	protected override int GetAIMove()
+	private float jumpTimer;
+	private bool isJumping;
+	private float telegraphTime = 1.0f; // Tempo de preparação
+	private float idleTime = 2.0f; // Tempo parado
+
+	protected override void UpdateAI(double delta)
 	{
-		return 0; // Não anda, apenas pula
+		jumpTimer -= (float)delta;
+
+		if(isJumping)
+		{
+			// Durante pulo, não faz nada
+			if(IsOnFloor())
+			{
+				isJumping = false;
+				jumpTimer = idleTime; // Tempo de descanso
+			}
+		}
+		else
+		{
+			// Preparação para pulo
+			if(jumpTimer <= 0)
+			{
+				Jump();
+			}
+		}
 	}
-	
-	protected override void SetupStateMachine()
+
+	private void Jump()
 	{
-		stateMachine.AddState("idle", new JumperIdleState(this));
-		stateMachine.AddState("telegraph", new JumperTelegraphState(this));
-		stateMachine.AddState("jump", new JumperJumpState(this));
-		stateMachine.AddState("land", new JumperLandState(this));
-		stateMachine.AddState("hurt", new PlayerHurtState(this));
-		stateMachine.AddState("dead", new WalkerDeadState(this));
-		
-		stateMachine.ChangeState("idle");
+		isJumping = true;
+		physicsController.Jump(data.JumpForce * 1.5f); // Pulo mais alto
+		jumpTimer = telegraphTime; // Próximo pulo
 	}
 }

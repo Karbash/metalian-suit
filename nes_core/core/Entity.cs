@@ -1,97 +1,133 @@
 using Godot;
 
 /// <summary>
-/// Base de todas as entidades (Player, Enemy).
-/// Calcula FrameIntent uma vez por frame.
+/// Base sólida para todas as entidades (Player, Enemy).
+/// Sistema confiável com tratamento de erros.
 /// </summary>
+	/// <summary>
+	/// Entidade NES-style: Simples, direta, confiável.
+	/// Sem estados complexos - apenas comportamento básico.
+	/// </summary>
+	public abstract partial class Entity : CharacterBody2D
+	{
+		[Export] public EntityData data;
 
-public abstract partial class Entity : CharacterBody2D
-{
-	[Export] public EntityData data;
-	
-	public StateMachine stateMachine;
-	public PhysicsController physicsController;
+		// Componentes essenciais
+		public PhysicsController physicsController;
+		public SpriteController spriteController;
+		public CombatController combatController;
 
-	protected SpriteController spriteController;
-	protected CombatController combatController;
-	protected KnockbackController knockbackController; // NOVO
-	protected InputController input;
-	
-	public bool FacingRight { get; set; } = true;
-	
-	private FrameIntent currentIntent;
-	
+		// Estado simples NES
+		public bool FacingRight { get; set; } = true;
+		public bool IsInvulnerable { get; set; }
+		public bool IsStunned { get; set; } // Knockback ativo
+		public int Health { get; set; }
+
+		// Input (para Player)
+		protected InputController input;
+
 	public override void _Ready()
 	{
+		Health = data?.MaxHealth ?? 1;
+
+		// Componentes essenciais
 		spriteController = GetNode<SpriteController>("SpriteController");
 		combatController = GetNode<CombatController>("CombatController");
-		knockbackController = GetNodeOrNull<KnockbackController>("KnockbackController"); // NOVO
-		input = GetNode<InputController>("/root/InputController");
+
+		// Física
 		physicsController = new PhysicsController(this, data);
 
-		stateMachine = new StateMachine();
-		SetupStateMachine();
-
+		// Eventos de combate
 		combatController.Damaged += OnDamaged;
 		combatController.Died += OnDied;
-
-		// NOVO: Escuta knockback
-		if(knockbackController != null)
-		{
-			knockbackController.KnockbackStarted += OnKnockbackStarted;
-			knockbackController.KnockbackEnded += OnKnockbackEnded;
-		}
 	}
-	
+
 	public override void _PhysicsProcess(double delta)
 	{
-		currentIntent = BuildIntent();
-		stateMachine.Update(delta);
+		// Atualiza comportamento básico
+		UpdateBehavior(delta);
+
+		// Aplica física
 		physicsController.ApplyPhysics(delta);
+
+		// Movimento
 		MoveAndSlide();
 	}
-	
-	protected abstract void SetupStateMachine();
-	
+
 	/// <summary>
-	/// Constrói a intenção do frame.
-	/// Player: lê input
-	/// Enemy: calcula AI
+	/// Atualiza comportamento básico da entidade
+	/// Chamado todo frame antes da física
 	/// </summary>
-	protected abstract FrameIntent BuildIntent();
-	
+	protected abstract void UpdateBehavior(double delta);
+
 	/// <summary>
-	/// Estados pegam a intenção via este método.
+	/// Chamado quando a entidade morre
 	/// </summary>
-	public FrameIntent GetIntent() => currentIntent;
-	
+	protected virtual void OnDeath()
+	{
+		// Override nas subclasses
+	}
+
+	/// <summary>
+	/// Chamado quando toma dano
+	/// </summary>
 	protected virtual void OnDamaged(int damage, Vector2 knockbackDir)
 	{
-		// Knockback agora é gerenciado automaticamente pelo KnockbackController
-		// Apenas força transição de estado
-		if(combatController.GetCurrentHealth() <= 0)
+		// NES-STYLE: Knockback imediato sempre
+		if(!IsInvulnerable)
 		{
-			stateMachine.ChangeState("dead");
+			physicsController.ApplyKnockback(knockbackDir);
+			StartInvulnerability();
 		}
-		else
+
+		// Sem estados complexos - apenas morte
+		if(Health <= 0)
 		{
-			stateMachine.ChangeState("hurt");
+			OnDeath();
 		}
 	}
 
-	protected virtual void OnKnockbackStarted()
+	private void StartInvulnerability()
 	{
-		// Override em classes derivadas se precisar
+		IsInvulnerable = true;
+		IsStunned = true; // Knockback ativo = stunned
+
+		// Flash visual NES
+		spriteController.StartHurtFlash(data.InvulnerabilityTime);
+
+		// Timer de invulnerabilidade
+		GetTree().CreateTimer(data.InvulnerabilityTime).Timeout += () => {
+			IsInvulnerable = false;
+			IsStunned = false;
+		};
 	}
 
-	protected virtual void OnKnockbackEnded()
-	{
-		// Override em classes derivadas se precisar
-	}
-
-	
+	/// <summary>
+	/// Chamado quando morre
+	/// </summary>
 	protected virtual void OnDied()
 	{
-		stateMachine.ChangeState("dead");
+		// Override nas subclasses
 	}
+
+	/// <summary>
+	/// Método direto para tomar dano
+	/// </summary>
+	public void TakeDamage(int damage, Vector2 knockbackDir)
+	{
+		try
+		{
+			Health = Mathf.Max(0, Health - damage);
+			OnDamaged(damage, knockbackDir);
+		}
+		catch(System.Exception e)
+		{
+			GD.PrintErr($"{Name}: Erro em TakeDamage: {e.Message}");
+		}
+	}
+
+	/// <summary>
+	/// Verifica se pode executar ações
+	/// </summary>
+	public virtual bool CanAct() => !IsInvulnerable;
 }

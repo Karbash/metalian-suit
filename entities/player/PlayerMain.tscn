@@ -3,7 +3,6 @@
 [ext_resource type="Script" uid="uid://drabpv1veprfj" path="res://entities/player/PlayerMain.cs" id="1"]
 [ext_resource type="Script" uid="uid://catngs5ifjtwy" path="res://nes_core/components/SpriteController.cs" id="2"]
 [ext_resource type="Script" uid="uid://7yeci7qmhehn" path="res://nes_core/components/CombatController.cs" id="3"]
-[ext_resource type="Script" path="res://nes_core/components/KnockbackController.cs" id="6"]
 [ext_resource type="Texture2D" uid="uid://61xydwy8uvtv" path="res://assets/sprites/character/Grayscale/char_jump_up_strip1.png" id="4_p2qdy"]
 [ext_resource type="Script" uid="uid://b8ojf3r060b7o" path="res://nes_core/data/EntityData.cs" id="5"]
 [ext_resource type="Texture2D" uid="uid://b7kg5ij05jd4b" path="res://assets/sprites/character/Grayscale/char_idle_strip10.png" id="5_pm2hg"]
@@ -241,9 +240,6 @@ animation = &"attack"
 script = ExtResource("3")
 
 [node name="Hurtbox" type="Area2D" parent="CombatController" unique_id=433194768]
-
-[node name="KnockbackController" type="Node" parent="." unique_id=1587498931]
-script = ExtResource("6")
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="CombatController/Hurtbox" unique_id=1880804554]

@@ -263,12 +263,11 @@ public abstract partial class Stage : Node2D
 		if(player != null)
 		{
 			player.GetNode<CombatController>("CombatController").TakeDamage(
-				new CombatController.DamageInfo
-				{
-					Damage = 999, // Dano fatal
-					Type = DamageType.Physical,
-					SourcePosition = player.GlobalPosition
-				}
+				CombatController.DamageInfo.Create(
+					999, // Dano fatal
+					player.GlobalPosition,
+					200f // Knockback forte para morte
+				)
 			);
 		}
 	}

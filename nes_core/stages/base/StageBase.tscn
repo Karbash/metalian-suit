@@ -4,6 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://byu7c7bbmef6o" path="res://icon.svg" id="2_0658j"]
 [ext_resource type="Script" uid="uid://cqdwpp30eo3fg" path="res://nes_core/camera/RetroCamera2D.cs" id="4_stage"]
 
+[sub_resource type="TileSet" id="TileSet_ydoek"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kxpma"]
 size = Vector2(32, 32)
 
@@ -34,22 +36,27 @@ script = ExtResource("4_stage")
 [node name="Background" type="TileMapLayer" parent="Layers" unique_id=814389271]
 texture_filter = 1
 texture_repeat = 1
+tile_set = SubResource("TileSet_ydoek")
 
 [node name="Floor" type="TileMapLayer" parent="Layers" unique_id=774617406]
 texture_filter = 1
 texture_repeat = 1
+tile_set = SubResource("TileSet_ydoek")
 
 [node name="Items" type="TileMapLayer" parent="Layers" unique_id=1340365835]
 texture_filter = 1
 texture_repeat = 1
+tile_set = SubResource("TileSet_ydoek")
 
 [node name="Interactables" type="TileMapLayer" parent="Layers" unique_id=1020505644]
 texture_filter = 1
 texture_repeat = 1
+tile_set = SubResource("TileSet_ydoek")
 
 [node name="Details" type="TileMapLayer" parent="Layers" unique_id=1716679711]
 texture_filter = 1
 texture_repeat = 1
+tile_set = SubResource("TileSet_ydoek")
 
 [node name="SpawnPoint" type="Marker2D" parent="." unique_id=1685249874]
 position = Vector2(32, -16)

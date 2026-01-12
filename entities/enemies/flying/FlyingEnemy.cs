@@ -1,34 +1,41 @@
 using Godot;
 
+/// <summary>
+/// FlyingEnemy NES-style: Voa em ondas, persegue o player.
+/// Movimento fluido e previsível.
+/// </summary>
 public partial class FlyingEnemy : Enemy
 {
-	protected override int GetAIMove()
+	protected override void UpdateAI(double delta)
 	{
-		if(player == null) return 0;
-		return player.GlobalPosition.X > GlobalPosition.X ? 1 : -1;
-	}
-	
-	protected override void SetupStateMachine()
-	{
-		stateMachine.AddState("patrol", new FlyingPatrolState(this));
-		stateMachine.AddState("dead", new WalkerDeadState(this));
-		stateMachine.ChangeState("patrol");
-	}
-}
+		if(player == null) return;
 
-public class FlyingPatrolState : State
-{
-	protected override string AnimationName => "fly";
-	
-	public FlyingPatrolState(Entity entity) : base(entity) { }
-	
-	public override void Update(double delta)
+		// NES: Persegue horizontalmente, movimento ondulado vertical
+		float horizontalDir = player.GlobalPosition.X > GlobalPosition.X ? 1f : -1f;
+		float verticalWave = Mathf.Sin((float)Time.GetTicksMsec() / 200f) * 20f;
+
+		// Movimento direto
+		Velocity = new Vector2(horizontalDir * data.MoveSpeed, verticalWave);
+
+		// Atualizar direção do sprite
+		if(horizontalDir != direction)
+		{
+			direction = horizontalDir;
+			FacingRight = direction > 0;
+		}
+	}
+
+	protected override void UpdateAnimation()
 	{
-		base.Update(delta);
-		
-		physics.Velocity = new Vector2(
-			intent.MoveX * entity.data.MoveSpeed,
-			Mathf.Sin((float)Time.GetTicksMsec() / 200f) * 20f
-		);
+		string animation = "fly"; // Flying sempre usa "fly"
+
+		if(spriteController != null)
+		{
+			var currentAnim = spriteController.GetCurrentAnimation();
+			if(currentAnim != animation)
+			{
+				spriteController.Play(animation, FacingRight);
+			}
+		}
 	}
 }

@@ -12,6 +12,7 @@ Data = ExtResource("4")
 
 [node name="Background" parent="Layers" parent_id_path=PackedInt32Array(1233282610) index="0" unique_id=814389271]
 visible = false
+modulate = Color(0.03685498, 0.20467466, 0.23000681, 1)
 tile_set = ExtResource("4_2er1y")
 
 [node name="Floor" parent="Layers" parent_id_path=PackedInt32Array(1233282610) index="1" unique_id=774617406]

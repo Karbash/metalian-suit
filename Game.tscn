@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cqeccfhekvj11"]
+
+[node name="Game" type="Node2D" unique_id=1977248393]
+
+[node name="StageContainer" type="Node2D" parent="." unique_id=1409683768]
+
+[node name="GameHUD" type="CanvasLayer" parent="." unique_id=1430746478]
+
+[node name="LivesLabel" type="Label" parent="GameHUD" unique_id=927321569]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -40.0
+offset_bottom = 23.0
+grow_horizontal = 0
+
+[node name="ScoreLabel" type="Label" parent="GameHUD" unique_id=1485036096]
+offset_right = 40.0
+offset_bottom = 23.0
+
+[node name="BossHealthBar" type="ProgressBar" parent="GameHUD" unique_id=1733916077]
+offset_left = 118.0
+offset_right = 122.0
+offset_bottom = 27.0

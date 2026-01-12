@@ -1,0 +1,13 @@
+﻿[gd_resource type="Resource" script_class="StageData" format=3 uid="uid://stage2data"]
+
+[ext_resource type="Script" path="res://nes_core/stages/base/StageData.cs" id="1"]
+
+[resource]
+script = ExtResource("1")
+StageName = "Stage 2"
+Description = "Segunda fase com novos desafios."
+HasCheckpoint = true
+TimeLimit = 400
+CompletionBonus = 7500
+EnemyDifficulty = 1.0
+MaxEnemies = 8

@@ -1,0 +1,122 @@
+[gd_scene format=3 uid="uid://cjqclvn8ki4d1"]
+
+[ext_resource type="Script" uid="uid://blhwivj4m1ipx" path="res://entities/enemies/walker/Goomba.cs" id="1"]
+[ext_resource type="Script" uid="uid://catngs5ifjtwy" path="res://nes_core/components/SpriteController.cs" id="2"]
+[ext_resource type="Script" uid="uid://7yeci7qmhehn" path="res://nes_core/components/CombatController.cs" id="3"]
+[ext_resource type="Script" path="res://nes_core/components/KnockbackController.cs" id="6"]
+[ext_resource type="Texture2D" uid="uid://3uaeh5u7eggc" path="res://assets/sprites/enemies/walker/WALKER - Enemies.png" id="4_s4scb"]
+[ext_resource type="Script" uid="uid://b8ojf3r060b7o" path="res://nes_core/data/EntityData.cs" id="5"]
+
+[sub_resource type="Resource" id="2"]
+script = ExtResource("5")
+MaxHealth = 1
+MoveSpeed = 40.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s4scb"]
+atlas = ExtResource("4_s4scb")
+region = Rect2(0, 0, 32, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aae0m"]
+atlas = ExtResource("4_s4scb")
+region = Rect2(192, 0, 32, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_apq17"]
+atlas = ExtResource("4_s4scb")
+region = Rect2(160, 0, 32, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p2jju"]
+atlas = ExtResource("4_s4scb")
+region = Rect2(128, 0, 32, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w27ni"]
+atlas = ExtResource("4_s4scb")
+region = Rect2(96, 0, 32, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eyk05"]
+atlas = ExtResource("4_s4scb")
+region = Rect2(64, 0, 32, 31)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rcoqd"]
+atlas = ExtResource("4_s4scb")
+region = Rect2(32, 0, 32, 31)
+
+[sub_resource type="SpriteFrames" id="1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s4scb")
+}],
+"loop": false,
+"name": &"dead",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aae0m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_apq17")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2jju")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w27ni")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eyk05")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rcoqd")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 7.0
+}]
+
+[sub_resource type="RectangleShape2D" id="3"]
+size = Vector2(16, 16)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_aae0m"]
+size = Vector2(16, 27)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_apq17"]
+radius = 6.0
+height = 32.0
+
+[node name="Goomba" type="CharacterBody2D" unique_id=1935292834]
+collision_layer = 2
+collision_mask = 4
+floor_constant_speed = true
+script = ExtResource("1")
+data = SubResource("2")
+
+[node name="SpriteController" type="Node2D" parent="." unique_id=91224742]
+script = ExtResource("2")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="SpriteController" unique_id=607167542]
+sprite_frames = SubResource("1")
+animation = &"walk"
+frame_progress = 0.8169687
+
+[node name="CombatController" type="Node2D" parent="." unique_id=153173924]
+script = ExtResource("3")
+
+[node name="Hurtbox" type="Area2D" parent="CombatController" unique_id=1996115917]
+
+[node name="KnockbackController" type="Node" parent="." unique_id=153173925]
+script = ExtResource("6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatController/Hurtbox" unique_id=2139178477]
+shape = SubResource("3")
+
+[node name="Hitbox" type="Area2D" parent="CombatController" unique_id=1296696259]
+monitoring = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CombatController/Hitbox" unique_id=537319125]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_aae0m")
+debug_color = Color(0.9529412, 0, 0, 0.41960785)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=25792429]
+shape = SubResource("CapsuleShape2D_apq17")

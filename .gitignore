@@ -1,0 +1,57 @@
+# Godot 4+ specific ignores
+.godot/
+/android/
+ios/
+web/
+windows/
+linux/
+macos/
+
+# Godot imported files
+*.import
+
+# Godot UID files (não devem ser versionados)
+*.uid
+
+# Mono/C# files
+*.user
+*.userprefs
+*.pidb
+*.suo
+*.cache
+bin/
+obj/
+.vs/
+.vscode/settings.json
+
+# Logs
+*.log
+logs/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# IDE files
+.idea/
+*.swp
+*.swo
+*~
+
+# Build outputs
+# export_presets.cfg  # Uncomment to keep export configs in repo
+*.pck
+*.zip
+
+# Temporary files
+*.tmp
+*.temp
+
+# Documentation (optional - uncomment if you want to keep docs out of repo)
+# docs/
+# *.md

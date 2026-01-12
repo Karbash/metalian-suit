@@ -1,0 +1,78 @@
+[gd_scene format=3 uid="uid://buw4vp6fqixuy"]
+
+[ext_resource type="Script" uid="uid://dujc7g370h7kv" path="res://nes_core/stages/base/Checkpoint.cs" id="1_ydoek"]
+[ext_resource type="Texture2D" uid="uid://byu7c7bbmef6o" path="res://icon.svg" id="2_0658j"]
+[ext_resource type="Script" uid="uid://cqdwpp30eo3fg" path="res://nes_core/camera/RetroCamera2D.cs" id="4_stage"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kxpma"]
+size = Vector2(32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tropc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0658j")
+}],
+"loop": false,
+"name": &"activated",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_0658j")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="StageBase" type="Node2D" unique_id=112484691]
+script = ExtResource("4_stage")
+
+[node name="Layers" type="Node2D" parent="." unique_id=1233282610]
+
+[node name="Background" type="TileMapLayer" parent="Layers" unique_id=814389271]
+texture_filter = 1
+texture_repeat = 1
+
+[node name="Floor" type="TileMapLayer" parent="Layers" unique_id=774617406]
+texture_filter = 1
+texture_repeat = 1
+
+[node name="Items" type="TileMapLayer" parent="Layers" unique_id=1340365835]
+texture_filter = 1
+texture_repeat = 1
+
+[node name="Interactables" type="TileMapLayer" parent="Layers" unique_id=1020505644]
+texture_filter = 1
+texture_repeat = 1
+
+[node name="Details" type="TileMapLayer" parent="Layers" unique_id=1716679711]
+texture_filter = 1
+texture_repeat = 1
+
+[node name="SpawnPoint" type="Marker2D" parent="." unique_id=1685249874]
+position = Vector2(32, -16)
+
+[node name="GoalArea" type="Area2D" parent="." unique_id=623871854]
+position = Vector2(200, -16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GoalArea" unique_id=1114326825]
+shape = SubResource("RectangleShape2D_kxpma")
+
+[node name="Checkpoint" type="Area2D" parent="." unique_id=393816137]
+position = Vector2(100, -16)
+script = ExtResource("1_ydoek")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Checkpoint" unique_id=1770295028]
+sprite_frames = SubResource("SpriteFrames_tropc")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Checkpoint" unique_id=1499867674]
+
+[node name="RetroCamera" type="Node2D" parent="." unique_id=338909364]
+script = ExtResource("4_stage")
+
+[node name="Enemies" type="Node2D" parent="." unique_id=1090491025]
+
+[node name="Pickups" type="Node2D" parent="." unique_id=1709706407]

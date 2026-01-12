@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="StageData" format=3 uid="uid://bnjvo8qqfoxal"]
+
+[ext_resource type="Script" uid="uid://c2d3bqbuqtbf2" path="res://nes_core/stages/base/StageData.cs" id="1"]
+
+[resource]
+script = ExtResource("1")
+Description = "A primeira fase do jogo"
+EnemyDifficulty = 0.8
+MaxEnemies = 5
+metadata/_custom_type_script = "uid://c2d3bqbuqtbf2"
